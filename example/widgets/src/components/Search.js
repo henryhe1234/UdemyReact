@@ -3,7 +3,23 @@ import axios from "axios";
 
 const Search = () => {
   const [term, setTerm] = useState("");
+  const [debouncedTerm,setDebouncedTerm] = useState(term)
   const [results, setResults] = useState([]);
+
+  useEffect(()=>{
+
+    //set debounced term 500ms after
+    const timerId = setTimeout(()=>{
+      setDebouncedTerm(term)
+    },500)
+
+    //clear previous timer
+    return ()=>{
+      clearTimeout(timerId)
+    }
+  },[term])
+
+
 
   useEffect(() => {
     //wiki api request
@@ -14,28 +30,18 @@ const Search = () => {
           list: "search",
           origin: "*",
           format: "json",
-          srsearch: term,
+          srsearch: debouncedTerm,
         },
       });
       setResults(data.query.search);
     };
-    if (term && !results.length) {
-      search();
-    } else {
-      //wait user for 500 ms and do api request
-      const timeoutId = setTimeout(() => {
-        if (term) {
-          search();
-        }
-      }, 500);
-  
-      //clean up function to clear Timeout
-      return () => {
-        clearTimeout(timeoutId);
-      };
-    }
 
-  }, [term]);
+    if(debouncedTerm){
+      search();
+    }
+    
+
+  }, [debouncedTerm]);
 
   const renderedResult = results.map((result) => {
     return (
