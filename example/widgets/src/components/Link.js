@@ -10,7 +10,7 @@ const Link = ({ className, href, children }) => {
     event.preventDefault();
     window.history.pushState({},'',href);
     
-    //add event listener when a href has change
+    //dispatch a event when a href has change
     const navEvent = new PopStateEvent('popstate');
     window.dispatchEvent(navEvent)
   };
