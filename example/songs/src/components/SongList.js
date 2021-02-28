@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { selectSong } from "../actions";
 const SongList = ({ songs,selectSong }) => {
-  console.log(songs)
+  
   const renderList = songs.map((song) => {
     return (
       <div className="item" key={song.title}>
