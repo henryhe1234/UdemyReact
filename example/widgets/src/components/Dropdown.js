@@ -4,12 +4,14 @@ const Dropdown = ({ label, options,selected,onSelectedChange }) => {
   const [open,setOpen] = useState(false)
   const ref = useRef();
   useEffect(()=>{
+
     const onBodyClick = (event)=>{
       if(ref.current && ref.current.contains(event.target)){
         return; 
       }
       setOpen(false)
     }
+    
     document.body.addEventListener('click',onBodyClick,{capture:true})
 
     return ()=>{
